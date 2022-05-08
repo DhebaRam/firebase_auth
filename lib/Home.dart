@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:app/mainPage.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:app/AppProvider.dart';
 import 'package:app/Login.dart';
@@ -15,10 +16,12 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> with TickerProviderStateMixin {
+class _HomeState extends State<Home> // with TickerProviderStateMixin
+{
   final Color yellow = const Color(0xfffbc31b);
   final Color orange = const Color(0xfffb6900);
-  AnimationController? animationController;
+
+  // AnimationController? animationController;
   File? imageess;
   File? photoUrl;
   XFile? images;
@@ -27,9 +30,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     Provider.of<AppProvider>(context, listen: false).checkimage();
-    animationController =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    animationController!.repeat();
+    // animationController =
+    //     AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    // animationController!.repeat();
     getPermission();
   }
 
@@ -37,7 +40,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void dispose() {
     // TODO: implement dispose
     super.dispose();
-    animationController!.dispose();
+    // animationController!.dispose();
   }
 
   @override
@@ -71,7 +74,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         //   ],
         // ),
         body: Consumer<AppProvider>(builder: (context, data, child) {
-        data.setImage(refs);
+      data.setImage(refs);
       return Column(children: [
         Container(
           height: 150,
@@ -99,45 +102,45 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         const SizedBox(
           height: 20,
         ),
-        Stack(
-          children: [
-            if (data.urls!=null)
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.blue, width: 4.0),
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(image: NetworkImage(data.urls),fit: BoxFit.cover),
-                ),
-              )
-            else
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.black26,
-                  border: Border.all(color: Colors.white70, width: 4.0),
-                  shape: BoxShape.rectangle,
-                ),
-                child: CircularProgressIndicator(
+        Container(
+          child: Stack(
+            children: [
+              if (data.urls != null)
+                Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.blue, width: 4.0),
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: NetworkImage(data.urls), fit: BoxFit.cover),
+                  ),
+                )
+              else
+                Container(
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    border: Border.all(color: Colors.white70, width: 4.0),
+                    shape: BoxShape.circle,
+                  ),
+                  child: CircularProgressIndicator(
                     backgroundColor: Colors.deepPurpleAccent,
                     color: Colors.red,
-                    valueColor: animationController!.drive(
-                        ColorTween(begin: Colors.blueAccent, end: Colors.red))),
-              ),
-            Positioned(
-              bottom: -10,
-              right: -15,
-              child: TextButton(
+                    // valueColor: animationController!.drive(
+                    //     ColorTween(begin: Colors.blueAccent, end: Colors.red))
+                  ),
+                ),
+              TextButton(
                 child: const Icon(
                   Icons.add_a_photo,
-                  size: 30,
+                  size: 40,
                 ),
                 onPressed: pickImage,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         // ignore: deprecated_member_use
         RaisedButton(
@@ -150,7 +153,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             data.urlnull();
             await FirebaseAuth.instance.signOut().then((value) =>
                 Navigator.of(context).pushAndRemoveUntil(
-                    MaterialPageRoute(builder: (context) => const Login()),
+                    MaterialPageRoute(builder: (context) => const MainPage()),
                     (route) => false));
           },
         ),

@@ -1,4 +1,5 @@
 import 'package:app/Login.dart';
+import 'package:app/mainPage.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -36,6 +37,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   void checkSignedIn() {
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const Login()));
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const MainPage()));
   }
 }

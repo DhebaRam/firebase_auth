@@ -61,7 +61,7 @@ class AppProvider extends ChangeNotifier {
 
   setVisibility() => otpCodeVisible = true;
 
-  setvisibility() => otpCodeVisible = false;
+  setotpvisibility() => otpCodeVisible = false;
 
   checkimage() async {
     if (FirebaseAuth.instance.currentUser!.photoURL!=null) {

@@ -1,4 +1,5 @@
 import 'package:app/Login.dart';
+import 'package:app/mainPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -26,9 +27,9 @@ class _SignUPState extends State<SignUP> {
       appBar: AppBar(
         title: const Text("User SignUp"),
       ),
-      body:Column(
+      body: Column(
         children: [
-         /* Stack(children: [
+          /* Stack(children: [
             // Container(
             //   alignment: Alignment.bottomRight,
             //   child: Text("Register",style: TextStyle(color: Colors.white60,fontSize: 30)),
@@ -64,23 +65,20 @@ class _SignUPState extends State<SignUP> {
           ]),*/
           Expanded(
             child: Container(
-      decoration: BoxDecoration(
-      gradient: LinearGradient(
-      begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [
-            Theme
-                .of(context)
-                .primaryColor,
-            Theme
-                .of(context)
-                .primaryColorLight
-          ])),
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColorLight
+                  ])),
               child: SingleChildScrollView(
                 child: Form(
                   key: _formKey,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 30),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -93,14 +91,14 @@ class _SignUPState extends State<SignUP> {
                             keyboardType: TextInputType.emailAddress,
                             decoration: const InputDecoration(
                               filled: true,
-                              suffixIcon: Icon(Icons.email_outlined,size: 30),
+                              suffixIcon: Icon(Icons.email_outlined, size: 30),
                               fillColor: Colors.white,
                               hintText: "Email",
                               labelText: "Email",
                               labelStyle: TextStyle(fontSize: 20.0),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                      BorderRadius.all(Radius.circular(10))),
                               errorStyle: TextStyle(
                                   color: Colors.redAccent, fontSize: 15),
                             ),
@@ -142,13 +140,13 @@ class _SignUPState extends State<SignUP> {
                             decoration: const InputDecoration(
                               labelText: 'Password',
                               filled: true,
-                              suffixIcon: Icon(Icons.visibility_off,size: 30),
+                              suffixIcon: Icon(Icons.visibility_off, size: 30),
                               fillColor: Colors.white,
                               hintText: "Password",
                               labelStyle: TextStyle(fontSize: 20.0),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                      BorderRadius.all(Radius.circular(10))),
                               errorStyle: TextStyle(
                                   color: Colors.redAccent, fontSize: 15),
                             ),
@@ -178,14 +176,14 @@ class _SignUPState extends State<SignUP> {
                             keyboardType: TextInputType.number,
                             decoration: const InputDecoration(
                               filled: true,
-                              suffixIcon: Icon(Icons.visibility_off,size: 30),
+                              suffixIcon: Icon(Icons.visibility_off, size: 30),
                               fillColor: Colors.white,
                               labelText: "Confirm Password",
                               hintText: 'Confirm Password: ',
                               labelStyle: TextStyle(fontSize: 20.0),
                               border: OutlineInputBorder(
                                   borderRadius:
-                                  BorderRadius.all(Radius.circular(10))),
+                                      BorderRadius.all(Radius.circular(10))),
                               errorStyle: TextStyle(
                                   color: Colors.redAccent, fontSize: 15),
                             ),
@@ -229,7 +227,8 @@ class _SignUPState extends State<SignUP> {
                                 },
                                 child: const Text(
                                   'Sign Up',
-                                  style: TextStyle(fontSize: 20.0,color: Colors.white),
+                                  style: TextStyle(
+                                      fontSize: 20.0, color: Colors.white),
                                 ),
                               ),
                             ),
@@ -241,18 +240,22 @@ class _SignUPState extends State<SignUP> {
                             const Text("Already have an Account? "),
                             TextButton(
                                 onPressed: () => {
-                                  Navigator.pushReplacement(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation1,
-                                          animation2) =>
-                                          const Login(),
-                                      transitionDuration:
-                                      const Duration(seconds: 0),
-                                    ),
-                                  )
-                                },
-                                child: const Text('Login',style: TextStyle(fontSize: 17.0,color: Colors.white),))
+                                      Navigator.pushReplacement(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation1,
+                                                  animation2) =>
+                                              const MainPage(),
+                                          transitionDuration:
+                                              const Duration(seconds: 0),
+                                        ),
+                                      )
+                                    },
+                                child: const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                      fontSize: 17.0, color: Colors.white),
+                                ))
                           ],
                         ),
                       ],
@@ -267,69 +270,70 @@ class _SignUPState extends State<SignUP> {
     );
   }
 
-   void registration() async {
-      if (password == confirmPassword) {
-        // print("Valid Password");
-        try {
-          UserCredential userCredential = await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password);
-          emailController.clear();
-          passwordController.clear();
-          confirmPasswordController.clear();
+  void registration() async {
+    if (password == confirmPassword) {
+      // print("Valid Password");
+      try {
+        UserCredential userCredential = await FirebaseAuth.instance
+            .createUserWithEmailAndPassword(email: email, password: password);
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>  Login(),
+            ),
+          );
+        emailController.clear();
+        passwordController.clear();
+        confirmPasswordController.clear();
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            backgroundColor: Colors.blue,
+            content: Text(
+              "Registered Successfully. Please Login..",
+              style: TextStyle(fontSize: 20.0),
+            ),
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              backgroundColor: Colors.blue,
+              backgroundColor: Colors.redAccent,
               content: Text(
-                "Registered Successfully. Please Login..",
+                "Password Provided is too weak..",
                 style: TextStyle(fontSize: 20.0),
               ),
             ),
           );
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const Login(),
+        } else if (e.code == 'email-already-in-use') {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              backgroundColor: Colors.redAccent,
+              content: Text(
+                "Account Already exists..",
+                style: TextStyle(fontSize: 20.0),
+              ),
             ),
           );
-        } on FirebaseAuthException catch (e) {
-          if (e.code == 'weak-password') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                backgroundColor: Colors.redAccent,
-                content: Text(
-                  "Password Provided is too weak..",
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ),
-            );
-          } else if (e.code == 'email-already-in-use') {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                backgroundColor: Colors.redAccent,
-                content: Text(
-                  "Account Already exists..",
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ),
-            );
-            emailController.clear();
-            passwordController.clear();
-            confirmPasswordController.clear();
-          }
+          emailController.clear();
+          passwordController.clear();
+          confirmPasswordController.clear();
         }
-      } else {
-        if (kDebugMode) {
-          print("Password and Confirm Password doesn't match");
-        }
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            backgroundColor: Colors.orangeAccent,
-            content: Text(
-              "Password and Confirm Password doesn't match",
-              style: TextStyle(fontSize: 14.0, color: Colors.black),
-            ),
-          ),
-        );
       }
+    } else {
+      if (kDebugMode) {
+        print("Password and Confirm Password doesn't match");
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          backgroundColor: Colors.orangeAccent,
+          content: Text(
+            "Password and Confirm Password doesn't match",
+            style: TextStyle(fontSize: 14.0, color: Colors.black),
+          ),
+        ),
+      );
+    }
   }
 }
