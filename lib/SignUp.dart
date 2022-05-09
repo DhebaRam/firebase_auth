@@ -1,4 +1,3 @@
-import 'package:app/Login.dart';
 import 'package:app/mainPage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +28,11 @@ class _SignUPState extends State<SignUP> {
       ),
       body: Column(
         children: [
+          // Visibility(
+          //   visible: Provider.of<InternetConnectionStatus>(context) ==
+          //       InternetConnectionStatus.disconnected,
+          //   child: const InternetNotAvailable(),
+          // ),
           /* Stack(children: [
             // Container(
             //   alignment: Alignment.bottomRight,
@@ -77,8 +81,8 @@ class _SignUPState extends State<SignUP> {
                 child: Form(
                   key: _formKey,
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 30),
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 0, horizontal: 30),
                     child: Column(
                       children: [
                         const SizedBox(
@@ -274,15 +278,15 @@ class _SignUPState extends State<SignUP> {
     if (password == confirmPassword) {
       // print("Valid Password");
       try {
-        UserCredential userCredential = await FirebaseAuth.instance
+        await FirebaseAuth.instance
             .createUserWithEmailAndPassword(email: email, password: password);
 
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>  Login(),
-            ),
-          );
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const Login(),
+          ),
+        );
         emailController.clear();
         passwordController.clear();
         confirmPasswordController.clear();

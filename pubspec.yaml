@@ -46,6 +46,7 @@ dependencies:
   path: ^1.8.0
   firebase_storage: ^10.2.8
   firebase_dynamic_links: ^4.0.0
+  internet_connection_checker: ^0.0.1+3
 
 
 

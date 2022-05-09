@@ -3,12 +3,13 @@ import 'package:app/SplashScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-void main() async{
+void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider<AppProvider>(create: (_) => AppProvider()),
-      // ChangeNotifierProvider<PostProviderData>(create: (_) => PostProviderData()),
+      // ChangeNotifierProvider<InternetConnectionStatus>(create: (_) => InternetConnectionStatus()),
     ],
     child: const MyApp(),
   ));
@@ -21,13 +22,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return StreamBuilder(
+    //   stream: InternetConnectionChecker().onStatusChange,
+    //     initialData: InternetConnectionStatus.connected,
+    //     builder: (BuildContext context,
+    //         AsyncSnapshot<InternetConnectionStatus> snapshot) {
+    //     print(InternetConnectionStatus.connected == InternetConnectionStatus.connected);
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        debugShowCheckedModeBanner: false,
+        home: const SplashScreen());
+    // });
   }
 }

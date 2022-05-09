@@ -1,9 +1,13 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:provider/provider.dart';
 
 class AppProvider extends ChangeNotifier {
   bool boolval = false;
@@ -17,8 +21,9 @@ class AppProvider extends ChangeNotifier {
   XFile? images;
   File? photo;
   bool checkfimage = false;
+
   // ignore: prefer_typing_uninitialized_variables
-  var urls=null;
+  var urls = null;
 
   // ignore: non_constant_identifier_names
   GetBoolVal() async {
@@ -64,14 +69,13 @@ class AppProvider extends ChangeNotifier {
   setotpvisibility() => otpCodeVisible = false;
 
   checkimage() async {
-    if (FirebaseAuth.instance.currentUser!.photoURL!=null) {
+    if (FirebaseAuth.instance.currentUser!.photoURL != null) {
       checkfimage = true;
       notifyListeners();
-    }else{
-      checkfimage=false;
+    } else {
+      checkfimage = false;
       notifyListeners();
     }
-
   }
 
   Future<void> imgFromCamera() async {
@@ -105,8 +109,9 @@ class AppProvider extends ChangeNotifier {
       }
     }
   }
-  urlnull(){
-    urls=null;
+
+  urlnull() {
+    urls = null;
     notifyListeners();
     print("nulll$urls");
   }
@@ -137,5 +142,11 @@ class AppProvider extends ChangeNotifier {
         print('error occurred');
       }
     }
+  }
+  bool isConnected = false;
+  CheckInternet() async{
+    isConnected = await InternetConnectionChecker().hasConnection;
+    notifyListeners();
+    print(isConnected);
   }
 }
